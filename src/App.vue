@@ -1,26 +1,56 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div>
+    <NavbarComp @change-animation="changeAnimation" />
+    <component :is="currentAnimationComponent" />
+    <router-view />
+  </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import FallingComp from './components/FallingComponent.vue';
+import RisingComp from './components/RisingComponent.vue';
+import NavbarComp from './components/NavbarComponent.vue';
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
-  }
-}
+    FallingComp,
+    RisingComp,
+    NavbarComp,
+  },
+  data() {
+    return {
+      currentAnimation: 'falling',
+    };
+  },
+  methods: {
+    changeAnimation(newAnimation) {
+      this.currentAnimation = newAnimation;
+    },
+  },
+  computed: {
+    currentAnimationComponent() {
+      return this.currentAnimation === 'falling' ? FallingComp : RisingComp;
+    },
+  },
+};
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+.falling {
+  /* Estilos comunes para el fondo */
+  position: relative;
+  overflow: hidden;
+}
+
+.rising {
+  /* Estilos comunes para el fondo */
+  position: relative;
+  overflow: hidden;
+}
+
+* {
+  margin: 0;
+  padding: 0;
 }
 </style>
