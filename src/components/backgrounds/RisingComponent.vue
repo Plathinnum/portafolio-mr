@@ -8,7 +8,7 @@
 
 <script>
 export default {
-    name: 'RisingComp',
+    name: 'RisingComponent',
     data() {
         return {
             pixels: [],

@@ -1,71 +1,138 @@
 <template>
-    <div class="d-flex justify-content-center align-items-center vh-100">
-        <div class="rotating-container col-10" :class="{ 'rotate': isRotated }">
-            <div class="rotating-div" :class="{ 'rotate': isRotated }"></div>
+    <div class="glitch-container" :class="{ 'glitch': isGlitching }">
+        <div class="glitch-div" :style="{ borderColor: capsule.border, boxShadow: capsule.shadow }"
+            :class="animationClass">
+            <slot />
         </div>
-        <button class="btn btn-primary mt-3" @click="rotate">Rotar
-        </button>
     </div>
 </template>
 
 <script>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
+import { useStore } from 'vuex';
 
 export default {
-    name: 'CapsuleComp',
+    name: 'CapsuleComponent',
     setup() {
-        const isRotated = ref(false);
+        const store = useStore();
+        const isGlitching = ref(false);
 
-        const rotate = () => {
-            isRotated.value = !isRotated.value;
+        const triggerGlitch = () => {
+            isGlitching.value = true;
+            setTimeout(() => {
+                isGlitching.value = false;
+            }, 500);
         };
 
+        const capsule = computed(() => {
+            switch (store.state.currentAnimation) {
+                case 'falling':
+                    return {
+                        shadow: '0 0 5px 2px rgba(52, 152, 219, 0.5)',
+                    };
+                case 'rising':
+                    return {
+                        shadow: '0 0 5px 2px rgba(231, 76, 60, 0.5)',
+                    };
+                default:
+                    return {
+                        shadow: '0 0 5px 2px rgba(231, 76, 60, 0.5)'
+                    }
+            }
+        });
+
+        const animationClass = computed(() => {
+            return store.state.currentAnimation === 'falling'
+                ? 'glitch-falling'
+                : 'glitch-rising';
+        });
+
         return {
-            isRotated,
-            rotate,
+            isGlitching,
+            triggerGlitch,
+            capsule,
+            animationClass,
         };
     },
 }
 </script>
 
 <style scoped>
-.d-flex {
-    height: 100vh;
-    overflow: hidden;
-}
-
-.rotating-container {
-    perspective: 1000px;
+.glitch-container {
     display: inline-block;
     height: 80vh;
+    width: 100%;
 }
 
-.rotating-div {
+.glitch-div {
     width: 100%;
     height: 100%;
-    border: 4px solid #007bff;
     border-radius: 15px;
-    /* Bordes personalizados */
-    border-top-left-radius: 0;
-    border-top-right-radius: 100px;
-    border-bottom-left-radius: 100px;
-    border-bottom-right-radius: 0;
-    /* Edición */
     display: flex;
     align-items: center;
     justify-content: center;
     background-color: transparent;
-    /* Sin relleno */
-    transition: transform 1s;
-    transform-style: preserve-3d;
+    transition: box-shadow 0.3s;
+    position: relative;
 }
 
-.rotating-container.rotate .rotating-div {
-    transform: rotateY(360deg);
+.glitch-container.glitch .glitch-falling {
+    animation: glitch-falling 0.5s;
 }
 
-button {
-    /* position: absolute; */
-    bottom: 20px;
+.glitch-container.glitch .glitch-rising {
+    animation: glitch-rising 0.5s;
+}
+
+@keyframes glitch-falling {
+    0% {
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+    }
+
+    20% {
+        box-shadow: 0 0 10px rgba(52, 152, 219, 0.7);
+    }
+
+    40% {
+        box-shadow: 0 0 15px rgba(52, 152, 219, 0.5);
+    }
+
+    60% {
+        box-shadow: 0 0 20px rgba(52, 152, 219, 0.3);
+    }
+
+    80% {
+        box-shadow: 0 0 25px rgba(52, 152, 219, 0.7);
+    }
+
+    100% {
+        box-shadow: 0 0 30px rgba(52, 152, 219, 0.5);
+    }
+}
+
+@keyframes glitch-rising {
+    0% {
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+    }
+
+    20% {
+        box-shadow: 0 0 10px rgba(231, 76, 60, 0.7);
+    }
+
+    40% {
+        box-shadow: 0 0 15px rgba(231, 76, 60, 0.5);
+    }
+
+    60% {
+        box-shadow: 0 0 20px rgba(231, 76, 60, 0.3);
+    }
+
+    80% {
+        box-shadow: 0 0 25px rgba(231, 76, 60, 0.7);
+    }
+
+    100% {
+        box-shadow: 0 0 30px rgba(231, 76, 60, 0.5);
+    }
 }
 </style>

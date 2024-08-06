@@ -1,54 +1,43 @@
 <template>
-  <div>
-    <NavbarComp @change-animation="changeAnimation" />
-    <component :is="currentAnimationComponent" />
-    <router-view />
+  <BackgroundsComponent :currentAnimation="currentAnimation" />
+  <div class="d-flex justify-content-center">
+    <div class="col-10">
+      <NavbarComponent @change-animation="changeAnimation" @glitch-card="triggerCapsuleGlitch"
+        :currentAnimation="currentAnimation" class="mb-5" />
+      <CapsuleComponent ref="capsuleComponent" :currentAnimation="currentAnimation">
+        <router-view />
+      </CapsuleComponent>
+    </div>
   </div>
 </template>
 
 <script>
-import FallingComp from './components/FallingComponent.vue';
-import RisingComp from './components/RisingComponent.vue';
-import NavbarComp from './components/NavbarComponent.vue';
+import { mapState, mapActions } from 'vuex';
+import NavbarComponent from './components/NavbarComponent.vue';
+import BackgroundsComponent from './components/BackgroundsComponent.vue';
+import CapsuleComponent from './components/CapsuleComponent.vue'; // Importa CapsuleComponent
 
 export default {
   name: 'App',
   components: {
-    FallingComp,
-    RisingComp,
-    NavbarComp,
-  },
-  data() {
-    return {
-      currentAnimation: 'falling',
-    };
-  },
-  methods: {
-    changeAnimation(newAnimation) {
-      this.currentAnimation = newAnimation;
-    },
+    NavbarComponent,
+    BackgroundsComponent,
+    CapsuleComponent, // Agrega CapsuleComponent
   },
   computed: {
-    currentAnimationComponent() {
-      return this.currentAnimation === 'falling' ? FallingComp : RisingComp;
-    },
+    ...mapState(['currentAnimation']),
+  },
+  methods: {
+    ...mapActions(['changeAnimation']),
+    triggerCapsuleGlitch() {
+      this.$refs.capsuleComponent.triggerGlitch();
+    }
   },
 };
 </script>
 
 <style>
-.falling {
-  /* Estilos comunes para el fondo */
-  position: relative;
-  overflow: hidden;
-}
-
-.rising {
-  /* Estilos comunes para el fondo */
-  position: relative;
-  overflow: hidden;
-}
-
+/* Estilos generales */
 * {
   margin: 0;
   padding: 0;
