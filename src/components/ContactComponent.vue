@@ -1,7 +1,7 @@
 <template>
     <div class="container mt-4 text-white">
         <div class="text-center mb-5">
-            <h2>Contacto</h2>
+            <h2 class="fw-bold">Contacto</h2>
             <h3>Ingresa para estar conectados</h3>
         </div>
         <div class="row">

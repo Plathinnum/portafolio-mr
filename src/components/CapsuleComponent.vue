@@ -9,12 +9,11 @@
 
 <script>
 import { ref, computed } from 'vue';
-import { useStore } from 'vuex';
 
 export default {
     name: 'CapsuleComponent',
-    setup() {
-        const store = useStore();
+    props: ['currentAnimation'],
+    setup(props) {
         const isGlitching = ref(false);
 
         const triggerGlitch = () => {
@@ -24,8 +23,9 @@ export default {
             }, 500);
         };
 
+
         const capsule = computed(() => {
-            switch (store.state.currentAnimation) {
+            switch (props.currentAnimation) {
                 case 'falling':
                     return {
                         shadow: '0 0 5px 2px rgba(52, 152, 219, 0.5)',
@@ -42,7 +42,7 @@ export default {
         });
 
         const animationClass = computed(() => {
-            return store.state.currentAnimation === 'falling'
+            return props.currentAnimation === 'falling'
                 ? 'glitch-falling'
                 : 'glitch-rising';
         });
@@ -74,6 +74,8 @@ export default {
     background-color: transparent;
     transition: box-shadow 0.3s;
     position: relative;
+    overflow: hidden;
+    margin-bottom: 40px;
 }
 
 .glitch-container.glitch .glitch-falling {
@@ -133,6 +135,15 @@ export default {
 
     100% {
         box-shadow: 0 0 30px rgba(231, 76, 60, 0.5);
+    }
+}
+
+@media (max-width: 768px) {
+    .glitch-div {
+        height: auto;
+        /* Ajustar la altura en pantallas pequeñas */
+        padding: 20px;
+        /* Añadir espacio interno */
     }
 }
 </style>

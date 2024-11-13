@@ -15,14 +15,14 @@
 import { mapState, mapActions } from 'vuex';
 import NavbarComponent from './components/NavbarComponent.vue';
 import BackgroundsComponent from './components/BackgroundsComponent.vue';
-import CapsuleComponent from './components/CapsuleComponent.vue'; // Importa CapsuleComponent
+import CapsuleComponent from './components/CapsuleComponent.vue';
 
 export default {
   name: 'App',
   components: {
     NavbarComponent,
     BackgroundsComponent,
-    CapsuleComponent, // Agrega CapsuleComponent
+    CapsuleComponent,
   },
   computed: {
     ...mapState(['currentAnimation']),
@@ -30,6 +30,7 @@ export default {
   methods: {
     ...mapActions(['changeAnimation']),
     triggerCapsuleGlitch() {
+      console.log('Glitch activado en CapsuleComponent');
       this.$refs.capsuleComponent.triggerGlitch();
     }
   },

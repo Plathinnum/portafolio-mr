@@ -1,8 +1,8 @@
 <template>
     <div class="container mt-4 text-white">
         <div class="text-center mb-5">
-            <h2>He trabajado con distintos lenguajes y frameworks</h2>
-            <h3>Entre los más destacables están:</h3>
+            <h2 class="fw-bold">Lenguajes y frameworks</h2>
+            <h3>Estos son algunos con los que he trabajado</h3>
         </div>
         <div class="row">
             <div class="col text-center mb-3">

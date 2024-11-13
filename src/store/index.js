@@ -1,8 +1,13 @@
 import { createStore } from 'vuex';
 
+const getRandomAnimation = () => {
+    const animations = ['falling', 'rising'];
+    return animations[Math.floor(Math.random() * animations.length)];
+};
+
 const store = createStore({
     state: {
-        currentAnimation: 'falling',
+        currentAnimation: getRandomAnimation(), // Inicializa con una animación aleatoria
     },
     mutations: {
         SET_ANIMATION(state, animation) {

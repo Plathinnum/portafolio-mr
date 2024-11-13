@@ -26,21 +26,4 @@ export default {
 
 
 
-<style>
-/* .falling { */
-/* Estilos comunes para el fondo */
-/* position: relative;
-    overflow: hidden;
-}
-
-.rising { */
-/* Estilos comunes para el fondo */
-/* position: relative;
-    overflow: hidden;
-} */
-
-/* * {
-    margin: 0;
-    padding: 0;
-} */
-</style>
+<style></style>
